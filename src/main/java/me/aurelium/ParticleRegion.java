@@ -4,14 +4,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ParticleRegion {
     public static final int REGION_SIZE = 16;
-
-    // bits 0..7 : X velocity (centipixels per frame)
-    // bits 8..15: Y velocity (centipixels per frame)
-    // bits 16..23: X subpixel (centipixels)
-    // bits 24..31: Y subpixel (centipixels)
-    // bits 32..39: particle type
-    // bits 40..52: temperature (degrees kelvin)
-    // bits 53..63: metadata
     private final Particle[] particles = new Particle[REGION_SIZE * REGION_SIZE];
     private final int simX, simY;
 
