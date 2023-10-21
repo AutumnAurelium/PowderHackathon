@@ -13,7 +13,7 @@ public class ParticleRegion {
     // bits 40..52: temperature (degrees kelvin)
     // bits 53..63: special
     private final long[] data = new long[REGION_SIZE * REGION_SIZE];
-
+    long data0;
     private final int simX, simY;
 
     private final ReentrantLock lock = new ReentrantLock();
@@ -24,6 +24,17 @@ public class ParticleRegion {
     }
 
     public void simulate(ParticleRegion up, ParticleRegion down, ParticleRegion left, ParticleRegion right) {
+
+        int xVelocity=(int)data0 & 0xff;
+        int yVelocity=((int)data0 >> 8) & 0xff;
+        int xSubpixel=((int)data0 >> 16) & 0xff;
+        int ySubpixel=((int)data0 >> 24) & 0xff;
+        long temp = (data0 >> 32) & 0xff;
+        int particleType=(int)temp;
+        temp = (data0>>40) & 0xfff;
+        int temperature=(int)temp;
+
+
 
     }
 
