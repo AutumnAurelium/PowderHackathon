@@ -18,10 +18,6 @@ public class ParticleRegion {
         }
     }
 
-    public void set(int x, int y, long particleData) {
-
-    }
-
     public void simulate(ParticleRegion up, ParticleRegion down, ParticleRegion left, ParticleRegion right) {
         this.lock();
         for(int y=REGION_SIZE-1; y >= 0; y--) {
@@ -87,5 +83,13 @@ public class ParticleRegion {
 
     public void unlock() {
         this.lock.unlock();
+    }
+
+    public int getSimX() {
+        return simX;
+    }
+
+    public int getSimY() {
+        return simY;
     }
 }

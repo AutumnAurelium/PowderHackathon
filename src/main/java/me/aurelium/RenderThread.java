@@ -17,10 +17,9 @@ import static org.lwjgl.system.MemoryUtil.*;
 public class RenderThread {
     public static final int WIN_WIDTH = 512;
     public static final int WIN_HEIGHT = 512;
-    public static final int SIM_WIDTH = 64;
-    public static final int SIM_HEIGHT = 64;
+    public static final int SIM_SIZE = 64;
 
-    private final int[] pixColors = new int[SIM_WIDTH * SIM_HEIGHT];
+    private final int[] pixColors = new int[SIM_SIZE * SIM_SIZE];
     private final ReentrantLock pixColorsLock = new ReentrantLock();
     private boolean shouldExit = false;
 
@@ -121,20 +120,20 @@ public class RenderThread {
 
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        glOrtho(0.0, SIM_WIDTH, SIM_HEIGHT, 0.0, -1.0, 1.0);
+        glOrtho(0.0, SIM_SIZE, SIM_SIZE, 0.0, -1.0, 1.0);
 
         glMatrixMode(GL_MODELVIEW);
 
-        ByteBuffer buffer = BufferUtils.createByteBuffer(SIM_WIDTH * SIM_WIDTH * 4);
+        ByteBuffer buffer = BufferUtils.createByteBuffer(SIM_SIZE * SIM_SIZE * 4);
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while ( !glfwWindowShouldClose(window) ) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-            for(int y = 0; y < SIM_HEIGHT; y++) {
-                for(int x = 0; x < SIM_WIDTH; x++) {
-                    int pix = pixColors[x + y*SIM_WIDTH];
+            for(int y = 0; y < SIM_SIZE; y++) {
+                for(int x = 0; x < SIM_SIZE; x++) {
+                    int pix = pixColors[x + y* SIM_SIZE];
                     buffer.put((byte)(pix >> 16 & 0xFF));
                     buffer.put((byte)(pix >> 8 & 0xFF));
                     buffer.put((byte)(pix & 0xFF));
@@ -154,7 +153,7 @@ public class RenderThread {
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, SIM_WIDTH, SIM_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, SIM_SIZE, SIM_SIZE, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
 
             glEnable(GL_BLEND);
             glEnable(GL_TEXTURE_2D);
@@ -169,13 +168,13 @@ public class RenderThread {
             glVertex2f(0, 0);
 
             glTexCoord2f(1, 0);
-            glVertex2f(SIM_WIDTH, 0);
+            glVertex2f(SIM_SIZE, 0);
 
             glTexCoord2f(1, 1);
-            glVertex2f(SIM_WIDTH, SIM_HEIGHT);
+            glVertex2f(SIM_SIZE, SIM_SIZE);
 
             glTexCoord2f(0, 1);
-            glVertex2f(0, SIM_HEIGHT);
+            glVertex2f(0, SIM_SIZE);
 
             glEnd(); // END
             glPopMatrix();
