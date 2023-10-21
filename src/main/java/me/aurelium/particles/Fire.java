@@ -1,4 +1,12 @@
 package me.aurelium.particles;
 
-public class Fire {
+import me.aurelium.Particle;
+
+public class Fire extends Particle {
+    int weight;
+    Fire(){
+        this.isCharged=false;
+        this.isWet=false;
+
+    }
 }
