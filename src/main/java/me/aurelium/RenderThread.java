@@ -106,12 +106,6 @@ public class RenderThread {
 
         // Make the window visible
         glfwShowWindow(window);
-
-        for(int y=0; y < SIM_HEIGHT; y++) {
-            for(int x=0; x < SIM_WIDTH; x++) {
-                pixColors[y*SIM_WIDTH + x] = (int)(Math.random() * Integer.MAX_VALUE);
-            }
-        }
     }
 
     private void loop() {
