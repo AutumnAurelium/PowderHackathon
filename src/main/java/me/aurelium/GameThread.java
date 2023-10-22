@@ -35,7 +35,7 @@ public class GameThread extends Thread {
         ParticleRegion region = regions[regionX + regionY * regionsPerRow];
         Particle[] particles = region.lockAndGetParticles();
 
-        if(particles[localY * ParticleRegion.REGION_SIZE + localX] instanceof Air) {
+        if(particles[localY * ParticleRegion.REGION_SIZE + localX] instanceof Air || particle instanceof Air) {
             particles[localY * ParticleRegion.REGION_SIZE + localX] = particle;
         }
 

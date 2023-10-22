@@ -78,6 +78,20 @@ public class RenderThread {
         }
     }
 
+    private String nameFromSelected() {
+        switch(selected) {
+            case 0: return "Dust";
+            case 1: return "Metal";
+            case 2: return "Water";
+            case 3: return "Grass";
+            case 4: return "Fire";
+            case 5: return "Stone";
+            case 6: return "Acid";
+            case 7: return "Magma";
+            default: return "";
+        }
+    }
+
     private void init() {
         // Setup an error callback. The default implementation
         // will print the error message in System.err.
@@ -93,7 +107,7 @@ public class RenderThread {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
 
         // Create the window
-        window = glfwCreateWindow(WIN_WIDTH, WIN_HEIGHT, "Hello World!", NULL, NULL);
+        window = glfwCreateWindow(WIN_WIDTH, WIN_HEIGHT, "Powder", NULL, NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
@@ -102,38 +116,41 @@ public class RenderThread {
             if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
             if(key == GLFW_KEY_R && action == GLFW_RELEASE) {
-                if(selected == maxSelected) {
-                    selected = 0;
+                if((mods & GLFW_MOD_SHIFT) != 0) {
+                    if(selected == 0) {
+                        selected = maxSelected;
+                    } else {
+                        selected--;
+                    }
                 } else {
-                    selected++;
-                }
-            }
-        });
-
-        glfwSetCursorPosCallback(window, (window, xPos, yPos) -> {
-            if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_RELEASE) {
-                return;
-            }
-
-            int simX = (int)xPos / SIZE_RATIO;
-            int simY = (int)yPos / SIZE_RATIO;
-
-            for(int x=simX-5; x < simX+5; x++) {
-                for(int y=simY-5; y < simY+5; y++) {
-                    if(x > 0 && y > 0 && x < SIM_SIZE && y < SIM_SIZE) {
-                        gameThread.setParticle(x, y, createFromSelected());
+                    if (selected == maxSelected) {
+                        selected = 0;
+                    } else {
+                        selected++;
                     }
                 }
             }
         });
 
-        glfwSetMouseButtonCallback(window, (window, button, actions, mods) -> {
-            if(button == GLFW_MOUSE_BUTTON_1) {
-                double[] xBuf = new double[1];
-                double[] yBuf = new double[1];
-                glfwGetCursorPos(window, xBuf, yBuf);
-                int x = (int)xBuf[0];
-                int y = (int)yBuf[0];
+        glfwSetCursorPosCallback(window, (window, xPos, yPos) -> {
+            int simX = (int) xPos / SIZE_RATIO;
+            int simY = (int) yPos / SIZE_RATIO;
+            if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) != GLFW_RELEASE) {
+                for (int x = simX - 5; x < simX + 5; x++) {
+                    for (int y = simY - 5; y < simY + 5; y++) {
+                        if (x > 0 && y > 0 && x < SIM_SIZE && y < SIM_SIZE) {
+                            gameThread.setParticle(x, y, createFromSelected());
+                        }
+                    }
+                }
+            } else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_2) != GLFW_RELEASE) {
+                for (int x = simX - 5; x < simX + 5; x++) {
+                    for (int y = simY - 5; y < simY + 5; y++) {
+                        if (x > 0 && y > 0 && x < SIM_SIZE && y < SIM_SIZE) {
+                            gameThread.setParticle(x, y, new Air());
+                        }
+                    }
+                }
             }
         });
 
@@ -189,7 +206,7 @@ public class RenderThread {
         while ( !glfwWindowShouldClose(window) ) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-            createFromSelected().getClass().getName();
+            glfwSetWindowTitle(window, "Powder (" + nameFromSelected() + ")");
 
             for(int y = 0; y < SIM_SIZE; y++) {
                 for(int x = 0; x < SIM_SIZE; x++) {

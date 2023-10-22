@@ -6,12 +6,12 @@ import me.aurelium.particles.SuperParticle.SuperGas;
 import java.awt.*;
 
 public class Fire extends SuperGas {
-    int weight;
     int life = 0;
     public Fire(){
         this.isCharged=false;
         this.isWet=false;
         this.temperature = 400;
+        this.weight = 10;
     }
 
     @Override

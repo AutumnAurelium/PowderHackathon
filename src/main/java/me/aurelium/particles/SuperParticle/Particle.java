@@ -25,6 +25,7 @@ public abstract class Particle {
 
         transfers.add(this);
         float sum = thermalEnergy(this);
+
         if(!(p[1][2] instanceof Air)  && p[1][2] != null) {
             transfers.add(p[1][2]);
             sum += thermalEnergy(p[1][2]);
