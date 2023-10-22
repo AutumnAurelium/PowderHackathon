@@ -15,6 +15,8 @@ public class GameThread extends Thread {
 
     private final ParticleRegion[] regions;
 
+    private boolean pausePhysics = false;
+
     public GameThread(RenderThread mainThread) {
         this.mainThread = mainThread;
 
@@ -25,6 +27,23 @@ public class GameThread extends Thread {
                 this.regions[y * regionsPerRow + x] = new ParticleRegion(x, y);
             }
         }
+    }
+
+    public void setParticle(int x, int y, Particle particle) {
+        int regionX = x / ParticleRegion.REGION_SIZE;
+        int regionY = y / ParticleRegion.REGION_SIZE;
+
+        int localX = x % ParticleRegion.REGION_SIZE;
+        int localY = y % ParticleRegion.REGION_SIZE;
+
+        ParticleRegion region = regions[regionX + regionY * regionsPerRow];
+        Particle[] particles = region.lockAndGetParticles();
+
+        if(particles[localY * ParticleRegion.REGION_SIZE + localX] instanceof Air) {
+            particles[localY * ParticleRegion.REGION_SIZE + localX] = particle;
+        }
+
+        region.unlock();
     }
 
     private void simulateRegion(boolean first, int i) {
@@ -87,6 +106,8 @@ public class GameThread extends Thread {
         regions[1].unlock();
 
         while (!mainThread.shouldExit()) {
+            if(pausePhysics) continue;
+
             long start = System.nanoTime();
 
             physicsTick();

@@ -1,5 +1,6 @@
 package me.aurelium;
 
+import me.aurelium.particles.Dust;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -18,6 +19,7 @@ public class RenderThread {
     public static final int WIN_WIDTH = 512;
     public static final int WIN_HEIGHT = 512;
     public static final int SIM_SIZE = 64;
+    public static final int SIZE_RATIO = WIN_WIDTH / SIM_SIZE;
 
     private final int[] pixColors = new int[SIM_SIZE * SIM_SIZE];
     private final ReentrantLock pixColorsLock = new ReentrantLock();
@@ -77,6 +79,21 @@ public class RenderThread {
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
             if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+        });
+
+        glfwSetMouseButtonCallback(window, (window, button, actions, mods) -> {
+            if(button == GLFW_MOUSE_BUTTON_1) {
+                double[] xBuf = new double[1];
+                double[] yBuf = new double[1];
+                glfwGetCursorPos(window, xBuf, yBuf);
+                int x = (int)xBuf[0];
+                int y = (int)yBuf[0];
+
+                int simX = x / SIZE_RATIO;
+                int simY = y / SIZE_RATIO;
+
+                gameThread.setParticle(simX, simY, new Dust());
+            }
         });
 
         // Get the thread stack and push a new frame
@@ -189,9 +206,12 @@ public class RenderThread {
         shouldExit = true;
     }
 
+    private static GameThread gameThread;
+
     public static void main(String[] args) {
         RenderThread mainThread = new RenderThread();
-        new GameThread(mainThread).start();
+        gameThread = new GameThread(mainThread);
+        gameThread.start();
         mainThread.run();
     }
 
