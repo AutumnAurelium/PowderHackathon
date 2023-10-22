@@ -9,6 +9,7 @@ public class Dust extends Particle {
     public Dust(){
         this.isCharged=false;
         this.isWet=false;
+        this.weight=50;
     }
 
     @Override

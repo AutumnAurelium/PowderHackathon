@@ -6,6 +6,9 @@ import java.awt.*;
 
 public class Metal extends Particle {
 
+    public Metal(){
+        this.weight=1000;
+    }
     @Override
     public Color getColor() {
         if (temperature>1400)

@@ -6,6 +6,9 @@ import java.awt.*;
 
 public class Magma extends Particle {
 
+    public Magma(){
+        this.weight=500;
+    }
     @Override
     public Color getColor() {
         if (temperature<300)

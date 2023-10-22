@@ -6,6 +6,9 @@ import java.awt.*;
 
 public class Stone extends Particle {
 
+    public Stone(){
+        this.weight=800;
+    }
     @Override
     public Color getColor() {
         if (temperature>1400)

@@ -7,6 +7,7 @@ public class Acid extends Particle {
     public Acid(){
         this.isWet=true;
         this.isCharged=false;
+        this.weight=100;
     }
 
     @Override

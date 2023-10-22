@@ -9,7 +9,6 @@ public class Fire extends Particle {
     public Fire(){
         this.isCharged=false;
         this.isWet=false;
-
     }
 
     @Override
