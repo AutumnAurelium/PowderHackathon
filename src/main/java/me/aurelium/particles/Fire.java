@@ -11,6 +11,7 @@ public class Fire extends SuperGas {
     public Fire(){
         this.isCharged=false;
         this.isWet=false;
+        this.temperature = 400;
     }
 
     @Override
