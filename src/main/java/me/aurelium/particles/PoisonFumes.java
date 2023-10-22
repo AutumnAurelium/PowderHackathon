@@ -26,13 +26,13 @@ public class PoisonFumes extends SuperGas {
         if (p[1][1]!=this) return;
 
         //catches fire when adjacent
-        if (p[1][0].temperature>390){
+        if (p[1][0]!=null && p[1][0].temperature>310){
             p[1][1]=new Fire();
-        } else if (p[0][1].temperature>390){
+        } else if (p[0][1]!=null && p[0][1].temperature>310){
             p[1][1]=new Fire();
-        } else if (p[1][2].temperature>390){
+        } else if (p[1][2]!=null && p[1][2].temperature>310){
             p[1][1]=new Fire();
-        } else if (p[2][1].temperature>390){
+        } else if (p[2][1]!=null && p[2][1].temperature>310){
             p[1][1]=new Fire();
         }
 
