@@ -58,7 +58,7 @@ public abstract class SuperGas extends Particle {
             return;
         }
 
-        if(p[2][1] instanceof GravityAffected) {
+        if(p[2][1] != null && p[2][1] instanceof GravityAffected) {
             if(p[2][1].weight < this.weight) {
                 Particle old = p[2][1];
                 p[2][1] = this;
@@ -70,7 +70,7 @@ public abstract class SuperGas extends Particle {
             return;
         }
 
-        if(p[0][1] instanceof GravityAffected) {
+        if(p[0][1] != null && p[0][1] instanceof GravityAffected) {
             if(p[0][1].weight > this.weight) {
                 Particle old = p[0][1];
                 p[0][1] = this;
