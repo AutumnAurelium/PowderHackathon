@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ParticleRegion {
-    public static final int REGION_SIZE = 16;
+    public static final int REGION_SIZE = RenderThread.SIM_SIZE;
     private final Particle[] particles = new Particle[REGION_SIZE * REGION_SIZE];
     private final int simX, simY;
 
@@ -56,9 +56,273 @@ public class ParticleRegion {
                     continue;
                 }
 
-                if(!(particle instanceof Air)) {
-                    particle.yVelocity += 1;
+                // Apply rules system
+
+                Particle[][] adjacent = new Particle[3][3];
+                adjacent[1][1] = particle;
+
+                boolean onTop = (y == 0);
+                boolean onBottom = (y + 1 >= REGION_SIZE);
+                boolean onLeft = (x == 0);
+                boolean onRight = (x+1 >= REGION_SIZE);
+
+                if(onTop && onLeft) {
+                    adjacent[0][0] = null;
+                } else {
+                    if(onTop) {
+                        if(up == null) {
+                            adjacent[0][0] = null;
+                        } else {
+                            adjacent[0][0] = up.particleAt(x - 1, REGION_SIZE - 1);
+                        }
+                    } else {
+                        if(onLeft) {
+                            if(left == null) {
+                                adjacent[0][0] = null;
+                            } else {
+                                adjacent[0][0] = left.particleAt(REGION_SIZE - 1, y - 1);
+                            }
+                        } else {
+                            adjacent[0][0] = particleAt(x - 1, y - 1);
+                        }
+                    }
                 }
+                if(onBottom && onLeft) {
+                    adjacent[2][0] = null;
+                } else {
+                    if(onBottom) {
+                        if(down == null) {
+                            adjacent[2][0] = null;
+                        } else {
+                            adjacent[2][0] = down.particleAt(x - 1, 0);
+                        }
+                    } else {
+                        if(onLeft) {
+                            if(left == null) {
+                                adjacent[2][0] = null;
+                            } else {
+                                adjacent[2][0] = left.particleAt(REGION_SIZE - 1, y + 1);
+                            }
+                        } else {
+                            adjacent[2][0] = particleAt(x - 1, y + 1);
+                        }
+                    }
+                }
+                if(onTop && onRight) {
+                    adjacent[0][2] = null;
+                } else {
+                    if(onTop) {
+                        if(up == null) {
+                            adjacent[0][2] = null;
+                        } else {
+                            adjacent[0][2] = up.particleAt(x + 1, REGION_SIZE - 1);
+                        }
+                    } else {
+                        if(onRight) {
+                            if(right == null) {
+                                adjacent[0][2] = null;
+                            } else {
+                                adjacent[0][2] = right.particleAt(0, y - 1);
+                            }
+                        } else {
+                            adjacent[0][2] = particleAt(x + 1, y - 1);
+                        }
+                    }
+                }
+                if(onBottom && onRight) {
+                    adjacent[2][2] = null;
+                } else {
+                    if(onBottom) {
+                        if(down == null) {
+                            adjacent[2][2] = null;
+                        } else {
+                            adjacent[2][2] = down.particleAt(x + 1, 0);
+                        }
+                    } else {
+                        if(onRight) {
+                            if(right == null) {
+                                adjacent[2][2] = null;
+                            } else {
+                                adjacent[2][2] = right.particleAt(0, y + 1);
+                            }
+                        } else {
+                            adjacent[2][2] = particleAt(x + 1, y + 1);
+                        }
+                    }
+                }
+
+                if(onTop) {
+                    if(up == null) {
+                        adjacent[0][1] = null;
+                    } else {
+                        adjacent[0][1] = up.particleAt(x, REGION_SIZE - 1);
+                    }
+                } else {
+                    adjacent[0][1] = particleAt(x, y-1);
+                }
+
+                if(onBottom) {
+                    if(down == null) {
+                        adjacent[2][1] = null;
+                    } else {
+                        adjacent[2][1] = down.particleAt(x, 0);
+                    }
+                } else {
+                    adjacent[2][1] = particleAt(x, y+1);
+                }
+
+                if(onLeft) {
+                    if(left == null) {
+                        adjacent[1][0] = null;
+                    } else {
+                        adjacent[1][0] = left.particleAt(REGION_SIZE - 1, y);
+                    }
+                } else {
+                    adjacent[1][0] = particleAt(x-1, y);
+                }
+
+                if(onRight) {
+                    if(right == null) {
+                        adjacent[1][2] = null;
+                    } else {
+                        adjacent[1][2] = right.particleAt(0, y);
+                    }
+                } else {
+                    adjacent[1][2] = particleAt(x + 1, y);
+                }
+
+                particle.interactionCheck(adjacent);
+
+                if(onTop && onLeft) {
+                    adjacent[0][0] = null;
+                } else {
+                    if(onTop) {
+                        if(up == null) {
+                            adjacent[0][0] = null;
+                        } else {
+                            up.replaceParticle(x - 1, REGION_SIZE - 1, adjacent[0][0]);
+                        }
+                    } else {
+                        if(onLeft) {
+                            if(left == null) {
+                                adjacent[0][0] = null;
+                            } else {
+                                left.replaceParticle(REGION_SIZE - 1, y - 1, adjacent[0][0]);
+                            }
+                        } else {
+                             replaceParticle(x - 1, y - 1, adjacent[0][0]);
+                        }
+                    }
+                }
+                if(onBottom && onLeft) {
+                    adjacent[2][0] = null;
+                } else {
+                    if(onBottom) {
+                        if(down == null) {
+                            adjacent[2][0] = null;
+                        } else {
+                             down.replaceParticle(x - 1, 0, adjacent[2][0]);
+                        }
+                    } else {
+                        if(onLeft) {
+                            if(left == null) {
+                                adjacent[2][0] = null;
+                            } else {
+                                left.replaceParticle(REGION_SIZE - 1, y + 1, adjacent[2][0] );
+                            }
+                        } else {
+                            replaceParticle(x - 1, y + 1, adjacent[2][0]);
+                        }
+                    }
+                }
+                if(onTop && onRight) {
+                    adjacent[0][2] = null;
+                } else {
+                    if(onTop) {
+                        if(up == null) {
+                            adjacent[0][2] = null;
+                        } else {
+                            up.replaceParticle(x + 1, REGION_SIZE - 1, adjacent[0][2]);
+                        }
+                    } else {
+                        if(onRight) {
+                            if(right == null) {
+                                adjacent[0][2] = null;
+                            } else {
+                                right.replaceParticle(0, y - 1, adjacent[0][2]);
+                            }
+                        } else {
+                            replaceParticle(x + 1, y - 1, adjacent[0][2]);
+                        }
+                    }
+                }
+                if(onBottom && onRight) {
+                    adjacent[2][2] = null;
+                } else {
+                    if(onBottom) {
+                        if(down == null) {
+                            adjacent[2][2] = null;
+                        } else {
+                            down.replaceParticle(x + 1, 0, adjacent[2][2]);
+                        }
+                    } else {
+                        if(onRight) {
+                            if(right == null) {
+                                adjacent[2][2] = null;
+                            } else {
+                                right.replaceParticle(0, y + 1, adjacent[2][2]);
+                            }
+                        } else {
+                            replaceParticle(x + 1, y + 1, adjacent[2][2]);
+                        }
+                    }
+                }
+
+                if(onTop) {
+                    if(up == null) {
+                        adjacent[0][1] = null;
+                    } else {
+                        up.replaceParticle(x, REGION_SIZE - 1, adjacent[0][1]);
+                    }
+                } else {
+                    replaceParticle(x, y-1, adjacent[0][1]);
+                }
+
+                if(onBottom) {
+                    if(down == null) {
+                        adjacent[2][1] = null;
+                    } else {
+                        down.replaceParticle(x, 0, adjacent[2][1]);
+                    }
+                } else {
+                    replaceParticle(x, y+1, adjacent[2][1]);
+                }
+
+                if(onLeft) {
+                    if(left == null) {
+                        adjacent[1][0] = null;
+                    } else {
+                        left.replaceParticle(REGION_SIZE - 1, y, adjacent[1][0]);
+                    }
+                } else {
+                    replaceParticle(x-1, y, adjacent[1][0]);
+                }
+
+                if(onRight) {
+                    if(right == null) {
+                        adjacent[1][2] = null;
+                    } else {
+                        right.replaceParticle(0, y, adjacent[1][2]);
+                    }
+                } else {
+                    replaceParticle(x + 1, y, adjacent[1][2]);
+                }
+
+                replaceParticle(x, y, adjacent[1][1]);
+
+/*                if(!(particle instanceof Air)) {
+                    particle.yVelocity += 1;
+                }*/
 
                 particle.xSubpixel += particle.xVelocity;
                 particle.ySubpixel += particle.yVelocity;

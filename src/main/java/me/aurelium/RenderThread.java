@@ -1,6 +1,8 @@
 package me.aurelium;
 
 import me.aurelium.particles.Dust;
+import me.aurelium.particles.Metal;
+import me.aurelium.particles.Water;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -18,7 +20,7 @@ import static org.lwjgl.system.MemoryUtil.*;
 public class RenderThread {
     public static final int WIN_WIDTH = 512;
     public static final int WIN_HEIGHT = 512;
-    public static final int SIM_SIZE = 64;
+    public static final int SIM_SIZE = 128;
     public static final int SIZE_RATIO = WIN_WIDTH / SIM_SIZE;
 
     private final int[] pixColors = new int[SIM_SIZE * SIM_SIZE];
@@ -27,6 +29,9 @@ public class RenderThread {
 
     // The window handle
     private long window;
+
+    private int selected = 0;
+    private static final int maxSelected = 2;
 
     public int[] lockPixelArray() {
         pixColorsLock.lock();
@@ -56,6 +61,15 @@ public class RenderThread {
         glfwSetErrorCallback(null).free();
     }
 
+    private Particle createFromSelected() {
+        switch (selected) {
+            case 0: return new Dust();
+            case 1: return new Metal();
+            case 2: return new Water();
+            default: return new Dust();
+        }
+    }
+
     private void init() {
         // Setup an error callback. The default implementation
         // will print the error message in System.err.
@@ -79,6 +93,30 @@ public class RenderThread {
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
             if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+            if(key == GLFW_KEY_R && action == GLFW_RELEASE) {
+                if(selected == maxSelected) {
+                    selected = 0;
+                } else {
+                    selected++;
+                }
+            }
+        });
+
+        glfwSetCursorPosCallback(window, (window, xPos, yPos) -> {
+            if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_RELEASE) {
+                return;
+            }
+
+            int simX = (int)xPos / SIZE_RATIO;
+            int simY = (int)yPos / SIZE_RATIO;
+
+            for(int x=simX-5; x < simX+5; x++) {
+                for(int y=simY-5; y < simY+5; y++) {
+                    if(x > 0 && y > 0 && x < SIM_SIZE && y < SIM_SIZE) {
+                        gameThread.setParticle(x, y, createFromSelected());
+                    }
+                }
+            }
         });
 
         glfwSetMouseButtonCallback(window, (window, button, actions, mods) -> {
@@ -89,10 +127,7 @@ public class RenderThread {
                 int x = (int)xBuf[0];
                 int y = (int)yBuf[0];
 
-                int simX = x / SIZE_RATIO;
-                int simY = y / SIZE_RATIO;
 
-                gameThread.setParticle(simX, simY, new Dust());
             }
         });
 

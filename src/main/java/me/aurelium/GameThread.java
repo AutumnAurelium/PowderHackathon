@@ -56,10 +56,10 @@ public class GameThread extends Thread {
         if(i + regionsPerRow < this.regions.length) {
             down = this.regions[i + regionsPerRow];
         }
-        if(i - 1 >= 0) {
+        if(i - 1 >= 0 && i % regionsPerRow != 0) {
             left = this.regions[i-1];
         }
-        if(i + 1 < this.regions.length) {
+        if(i + 1 < this.regions.length  && i % regionsPerRow != regionsPerRow-1) {
             right = this.regions[i+1];
         }
 
@@ -73,7 +73,7 @@ public class GameThread extends Thread {
             simulateRegion(true, i);
         }
 
-        for(int i=1; i < regionsPerRow*regionsPerRow; i += 2) { // Alternating pattern 2
+/*        for(int i=1; i < regionsPerRow*regionsPerRow; i += 2) { // Alternating pattern 2
             simulateRegion(true, i);
         }
 
@@ -83,13 +83,14 @@ public class GameThread extends Thread {
 
         for(int i=1; i < regionsPerRow*regionsPerRow; i += 2) { // Alternating pattern 4
             simulateRegion(false, i);
-        }
+        }*/
     }
 
     public void run() {
 
         // make test particle
-        Particle[] particles2 = regions[0].lockAndGetParticles();
+/*        Particle[] particles2 = regions[0].lockAndGetParticles();
+
 
         Particle p = new Dust();
         p.xVelocity = 0;
@@ -104,6 +105,7 @@ public class GameThread extends Thread {
 
         regions[0].unlock();
         regions[1].unlock();
+*/
 
         while (!mainThread.shouldExit()) {
             if(pausePhysics) continue;
@@ -112,13 +114,13 @@ public class GameThread extends Thread {
 
             physicsTick();
 
-            Particle[] sandPlacer = regions[0].lockAndGetParticles();
+            /*Particle[] sandPlacer = regions[0].lockAndGetParticles();
 
             if(sandPlacer[ParticleRegion.REGION_SIZE * 4 + 4] instanceof Air) {
                 sandPlacer[ParticleRegion.REGION_SIZE * 4 + 4] = new Dust();
             }
 
-            regions[0].unlock();
+            regions[0].unlock();*/
 
             int[] pixels = mainThread.lockPixelArray();
             for(ParticleRegion region : regions) {
@@ -162,7 +164,15 @@ public class GameThread extends Thread {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
+            } else {
+                frameFailCount++;
+
+                if(frameFailCount % 600 == 0) {
+                    System.out.println("Can't keep up!");
+                }
             }
         }
     }
+
+    private int frameFailCount = 0;
 }
