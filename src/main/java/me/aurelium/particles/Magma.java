@@ -13,7 +13,7 @@ public class Magma extends SuperLiquid {
     }
     @Override
     public Color getColor() {
-        if (temperature<300)
+        if (temperature<500)
             return new Color(0,0,0);
         else if(temperature<1400){
             int r= (int)(temperature*.175);
@@ -35,7 +35,7 @@ public class Magma extends SuperLiquid {
         if(p[1][1] != this)
             return;
 
-        if(p[1][1].temperature < 300) {
+        if(p[1][1].temperature < 500) {
             p[1][1] = new Stone();
             p[1][1].temperature = this.temperature;
         }

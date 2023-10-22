@@ -9,7 +9,7 @@ import java.awt.*;
 public class Metal extends Particle {
 
     public Metal(){
-        this.weight=1000;
+        this.weight=100;
         this.temperature=270;
     }
     @Override
@@ -27,11 +27,5 @@ public class Metal extends Particle {
     @Override
     public boolean canCollide(Particle p) {
         return true;
-    }
-
-    @Override
-    public void interactionCheck(Particle[][] p) {
-        //heats up, thats about all
-
     }
 }

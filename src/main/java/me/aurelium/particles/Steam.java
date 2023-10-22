@@ -30,7 +30,9 @@ public class Steam extends SuperGas {
         if(p[1][1] != this)
             return;
 
-        this.temperature -= 20;
+        if(Math.random() > 0.5) {
+            this.temperature -= (float) (10 * Math.random());
+        }
 
         if(this.temperature < 373) {
             p[1][1] = new Water();

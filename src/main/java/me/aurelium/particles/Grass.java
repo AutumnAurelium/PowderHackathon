@@ -26,23 +26,23 @@ public class Grass extends Particle {
             return;
 
         if(p[2][1] != null) {
-            if (p[1][0] instanceof Water){
+            if (p[1][0] != null && p[1][0] instanceof Water){
                 p[1][0]=new Grass();
-            } else if (p[0][1] instanceof Water){
+            } else if(p[0][1] != null && p[0][1] instanceof Water){
                 p[0][1]=new Grass();
-            } else if (p[1][2] instanceof Water){
+            } else if (p[1][2] != null && p[1][2] instanceof Water){
                 p[1][2]=new Grass();
-            } else if (p[2][1] instanceof Water){
+            } else if (p[2][1] != null && p[2][1] instanceof Water){
                 p[2][1]=new Grass();
             }
 
-            if (p[1][0].temperature>390){
+            if (p[1][0] != null && p[1][0].temperature>390){
                 p[1][1]=new Fire();
-            } else if (p[0][1].temperature>390){
+            } else if (p[0][1] != null && p[0][1].temperature>390){
                 p[1][1]=new Fire();
-            } else if (p[1][2].temperature>390){
+            } else if (p[1][2] != null && p[1][2].temperature>390){
                 p[1][1]=new Fire();
-            } else if (p[2][1].temperature>390){
+            } else if (p[2][1] != null && p[2][1].temperature>390){
                 p[1][1]=new Fire();
             }
             }

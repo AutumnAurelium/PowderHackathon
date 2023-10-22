@@ -45,10 +45,10 @@ public abstract class Particle {
         }
 
         for(Particle transfer : transfers) {
-            transfer.temperature = (float) ((sum / transfers.size()) / transfer.weight);
+            transfer.temperature = (float) ((sum / transfers.size()));
         }
     }
     private float thermalEnergy(Particle p) {
-        return (float) (p.temperature * p.weight);
+        return (float) (p.temperature );
     }
 }

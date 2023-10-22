@@ -36,7 +36,7 @@ public class Stone extends SuperSolid {
         if(p[1][1] != this)
             return;
 
-        if(p[1][1].temperature > 300) {
+        if(p[1][1].temperature > 500) {
             p[1][1] = new Magma();
             p[1][1].temperature = this.temperature;
         }
