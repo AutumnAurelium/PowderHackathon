@@ -15,7 +15,7 @@ public class Acid extends SuperLiquid {
 
     @Override
     public Color getColor() {
-        return Color.GREEN;
+        return new Color(237, 253, 63);
     }
 
     @Override
