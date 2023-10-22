@@ -13,7 +13,7 @@ public abstract class Particle {
     public boolean isCharged;
     public static Color color;
     public double weight;
-
+    public boolean isPhysicsTickFinished = false;
 
     public abstract Color getColor();
 }

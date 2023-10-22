@@ -1,5 +1,7 @@
 package me.aurelium;
 
+import me.aurelium.particles.Dust;
+
 import javax.swing.plaf.synth.Region;
 
 public class GameThread extends Thread {
@@ -19,24 +21,40 @@ public class GameThread extends Thread {
         }
     }
 
+    private void simulateRegion(boolean first, int i) {
+        ParticleRegion up=null, down=null, left=null, right=null;
+
+        if(i - regionsPerRow >= 0) {
+            up = this.regions[i - regionsPerRow];
+        }
+        if(i + regionsPerRow < this.regions.length) {
+            down = this.regions[i + regionsPerRow];
+        }
+        if(i - 1 >= 0) {
+            left = this.regions[i-1];
+        }
+        if(i + 1 < this.regions.length) {
+            right = this.regions[i+1];
+        }
+
+        this.regions[i].simulate(first, up, down, left, right);
+    }
+
     private void physicsTick() {
-        for(int i=0; i < regionsPerRow; i += 2) { // Alternating pattern
-            ParticleRegion up=null, down=null, left=null, right=null;
+        for(int i=0; i < regionsPerRow*regionsPerRow; i += 2) { // Alternating pattern
+            simulateRegion(true, i);
+        }
 
-            if(i - regionsPerRow >= 0) {
-                up = this.regions[i - regionsPerRow];
-            }
-            if(i + regionsPerRow < this.regions.length) {
-                down = this.regions[i + regionsPerRow];
-            }
-            if(i - 1 >= 0) {
-                left = this.regions[i-1];
-            }
-            if(i + 1 < this.regions.length) {
-                right = this.regions[i+1];
-            }
+        for(int i=1; i < regionsPerRow*regionsPerRow; i += 2) { // Alternating pattern 2
+            simulateRegion(true, i);
+        }
 
-            this.regions[i].simulate(up, down, left, right);
+        for(int i=0; i < regionsPerRow*regionsPerRow; i += 2) { // Alternating pattern 3
+            simulateRegion(false, i);
+        }
+
+        for(int i=1; i < regionsPerRow*regionsPerRow; i += 2) { // Alternating pattern 4
+            simulateRegion(false, i);
         }
     }
 
@@ -45,9 +63,9 @@ public class GameThread extends Thread {
         // make test particle
         Particle[] particles2 = regions[0].lockAndGetParticles();
 
-        Particle p = new Particle();
-        p.xVelocity = 20;
-        p.yVelocity = 10;
+        Particle p = new Dust();
+        p.xVelocity = 120;
+        p.yVelocity = 25;
         p.type = 1;
         particles2[4 * ParticleRegion.REGION_SIZE + 3] = p;
         regions[0].unlock();
@@ -72,7 +90,11 @@ public class GameThread extends Thread {
                         if (particle.type == 1) {
                             pixels[pixY * RenderThread.SIM_SIZE + pixX] = 0xFFFFFF;
                         } else {
-                            pixels[pixY * RenderThread.SIM_SIZE + pixX] = 0;
+                            if((region.getSimX() + region.getSimY()) % 2 == 0) {
+                                pixels[pixY * RenderThread.SIM_SIZE + pixX] = 0x222222;
+                            } else {
+                                pixels[pixY * RenderThread.SIM_SIZE + pixX] = 0x444444;
+                            }
                         }
                     }
                 }

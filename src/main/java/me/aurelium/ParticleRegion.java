@@ -1,5 +1,7 @@
 package me.aurelium;
 
+import me.aurelium.particles.Air;
+
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ParticleRegion {
@@ -14,15 +16,22 @@ public class ParticleRegion {
         this.simY = y;
 
         for(int i=0; i < particles.length; i++) {
-            particles[i] = new Particle();
+            particles[i] = new Air();
         }
     }
 
-    public void simulate(ParticleRegion up, ParticleRegion down, ParticleRegion left, ParticleRegion right) {
+    public void simulate(boolean first, ParticleRegion up, ParticleRegion down, ParticleRegion left, ParticleRegion right) {
         this.lock();
         for(int y=REGION_SIZE-1; y >= 0; y--) {
             for(int x=0; x < REGION_SIZE; x++) {
                 Particle particle = particleAt(x, y);
+
+                if(particle.isPhysicsTickFinished) {
+                    if(first) {
+                        particle.isPhysicsTickFinished = false;
+                    }
+                    continue;
+                }
 
                 particle.xSubpixel += particle.xVelocity;
                 particle.ySubpixel += particle.yVelocity;
@@ -47,17 +56,47 @@ public class ParticleRegion {
                     particle.ySubpixel = Math.abs(particle.ySubpixel) % 500;
                 }
 
+                int xOverflow=0, yOverflow=0;
+                boolean hasXOverflow=false, hasYOverflow=false;
                 if(destX >= REGION_SIZE) {
-                    destX = x;
+                    xOverflow = destX - REGION_SIZE;
+                    hasXOverflow = true;
                 }
                 if(destY >= REGION_SIZE) {
-                    destY = y;
+                    yOverflow = destY - REGION_SIZE;
+                    hasYOverflow = true;
+                }
+                if(destX < 0) {
+                    xOverflow = destX;
+                    hasXOverflow = true;
+                }
+                if(destY < 0) {
+                    yOverflow = destY;
+                    hasYOverflow = true;
                 }
 
-                if((destX != x || destY != y) && particleAt(destX, destY).type != 1) {
+                if(hasXOverflow && hasYOverflow) {
+                    System.out.println("CORNER CASE OH FUCK");
+                } else if(hasXOverflow || hasYOverflow) {
+                    if(hasXOverflow && xOverflow >= 0) {
+                        Particle old = right.replaceParticle(xOverflow, y, particle);
+                        replaceParticle(x, y, old);
+                    } else if(hasXOverflow && xOverflow < 0) {
+                        Particle old = left.replaceParticle(REGION_SIZE + xOverflow, y, particle);
+                        replaceParticle(x, y, old);
+                    } else if(yOverflow >= 0) {
+                        Particle old = down.replaceParticle(x, yOverflow, particle);
+                        replaceParticle(x, y, old);
+                    } else {
+                        Particle old = up.replaceParticle(x, REGION_SIZE + yOverflow, particle);
+                        replaceParticle(x, y, old);
+                    }
+                } else if((destX != x || destY != y) && particleAt(destX, destY).type != 1) {
                     Particle old = replaceParticle(destX, destY, particle);
                     replaceParticle(x, y, old);
                 }
+
+                particle.isPhysicsTickFinished = true;
             }
         }
     }
