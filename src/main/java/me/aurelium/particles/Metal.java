@@ -10,6 +10,7 @@ public class Metal extends Particle {
 
     public Metal(){
         this.weight=1000;
+        this.temperature=270;
     }
     @Override
     public Color getColor() {

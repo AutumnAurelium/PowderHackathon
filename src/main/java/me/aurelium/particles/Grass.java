@@ -7,6 +7,7 @@ import java.awt.*;
 public class Grass extends Particle {
     public Grass(){
         this.weight=70;
+        this.temperature=295;
     }
 
     @Override

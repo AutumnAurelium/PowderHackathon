@@ -9,7 +9,7 @@ public class Ice extends SuperSolid {
 
     public Ice(){
         this.weight=150;
-        this.temperature=250;
+        this.temperature=270;
     }
     @Override
     public Color getColor() {
@@ -33,6 +33,5 @@ public class Ice extends SuperSolid {
             p[1][1] = new Water();
             p[1][1].temperature = this.temperature;
         }
-
     }
 }

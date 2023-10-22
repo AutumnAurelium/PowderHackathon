@@ -11,6 +11,7 @@ public class Dust extends SuperSolid {
         this.isCharged=false;
         this.isWet=false;
         this.weight=50;
+        this.temperature=295;
     }
 
     @Override
