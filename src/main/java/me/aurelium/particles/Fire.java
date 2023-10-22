@@ -26,9 +26,17 @@ public class Fire extends SuperGas {
     @Override
     public void interactionCheck(Particle[][] p) {
         super.interactionCheck(p);
+
+        if(p[1][1] instanceof Air)
+            return;
+
         life++;
 
-        if(life > 30 && Math.random() > 0.2) {
+        if(p[0][1] == null || p[0][1].canCollide(this)) {
+            p[1][1] = new Air();
+        }
+
+        if(life > 10 && Math.random() > 0.2) {
             p[1][1] = new Air();
         }
     }
