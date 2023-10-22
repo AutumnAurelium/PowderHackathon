@@ -2,6 +2,8 @@ package me.aurelium;
 
 import me.aurelium.particles.Air;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ParticleRegion {
@@ -18,6 +20,25 @@ public class ParticleRegion {
         for(int i=0; i < particles.length; i++) {
             particles[i] = new Air();
         }
+    }
+
+    public static List<Integer[]> bresenham(int x0, int y0, int x1, int y1) {
+        List<Integer[]> results = new ArrayList<>();
+
+        int dx = x1 - x0;
+        int dy = y1 - y0;
+        int D = 2*dy - dx;
+        int y = y0;
+
+        for(int x=x0; x < x1; x++) {
+            results.add(new Integer[]{x, y});
+            if(D > 0) {
+                y += 1;
+                D -= 2*dx;
+            }
+            D += 2*dy;
+        }
+        return results;
     }
 
     public void simulate(boolean first, ParticleRegion up, ParticleRegion down, ParticleRegion left, ParticleRegion right) {
@@ -91,7 +112,33 @@ public class ParticleRegion {
                         Particle old = up.replaceParticle(x, REGION_SIZE + yOverflow, particle);
                         replaceParticle(x, y, old);
                     }
-                } else if((destX != x || destY != y) && particleAt(destX, destY).type != 1) {
+                } else if((destX != x || destY != y)) {
+                    List<Integer[]> intersections = bresenham(x, y, destX, destY);
+
+                    for(int i=1; i < intersections.size(); i++) {
+                        Integer[] arr = intersections.get(i);
+                        int inX = arr[0];
+                        int inY = arr[1];
+
+                        Particle particleAt = particleAt(inX, inY);
+                        if(particleAt.canCollide(particle)) {
+                            Integer[] stopPos = intersections.get(i - 1);
+                            int stopX = stopPos[0];
+                            int stopY = stopPos[1];
+                            particle.xVelocity = 0;
+                            particle.yVelocity = 0;
+                            destX = stopX;
+                            destY = stopY;
+                        }
+                    }
+
+                    if(particleAt(destX, destY).canCollide(particle)) {
+                        destX = x;
+                        destY = y;
+                        particle.xVelocity = 0;
+                        particle.yVelocity = 0;
+                    }
+
                     Particle old = replaceParticle(destX, destY, particle);
                     replaceParticle(x, y, old);
                 }

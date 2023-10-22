@@ -1,8 +1,12 @@
 package me.aurelium;
 
 import me.aurelium.particles.Dust;
+import me.aurelium.particles.Metal;
 
 import javax.swing.plaf.synth.Region;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameThread extends Thread {
     private static final int regionsPerRow = RenderThread.SIM_SIZE / ParticleRegion.REGION_SIZE;
@@ -13,6 +17,7 @@ public class GameThread extends Thread {
     public GameThread(RenderThread mainThread) {
         this.mainThread = mainThread;
 
+        // initialize empty regions
         this.regions = new ParticleRegion[regionsPerRow * regionsPerRow];
         for(int y=0; y < regionsPerRow; y++) {
             for(int x=0; x < regionsPerRow; x++) {
@@ -24,6 +29,7 @@ public class GameThread extends Thread {
     private void simulateRegion(boolean first, int i) {
         ParticleRegion up=null, down=null, left=null, right=null;
 
+        // decide what is up, down, left, right
         if(i - regionsPerRow >= 0) {
             up = this.regions[i - regionsPerRow];
         }
@@ -37,10 +43,12 @@ public class GameThread extends Thread {
             right = this.regions[i+1];
         }
 
+        // simulate
         this.regions[i].simulate(first, up, down, left, right);
     }
 
     private void physicsTick() {
+        // passing first=true for these two so it can clear "dirty" flags
         for(int i=0; i < regionsPerRow*regionsPerRow; i += 2) { // Alternating pattern
             simulateRegion(true, i);
         }
@@ -65,9 +73,14 @@ public class GameThread extends Thread {
 
         Particle p = new Dust();
         p.xVelocity = 120;
-        p.yVelocity = 25;
-        p.type = 1;
+        p.yVelocity = 0;
         particles2[4 * ParticleRegion.REGION_SIZE + 3] = p;
+
+        Particle p2 = new Dust();
+        p2.xVelocity = 0;
+        p2.yVelocity = 0;
+        particles2[4 * ParticleRegion.REGION_SIZE + 12] = p2;
+
         regions[0].unlock();
 
         while (!mainThread.shouldExit()) {
@@ -87,14 +100,16 @@ public class GameThread extends Thread {
                         int pixY = y + ParticleRegion.REGION_SIZE*region.getSimY();
                         int pixX = x + ParticleRegion.REGION_SIZE*region.getSimX();
 
-                        if (particle.type == 1) {
-                            pixels[pixY * RenderThread.SIM_SIZE + pixX] = 0xFFFFFF;
-                        } else {
+                        Color color = particle.getColor();
+
+                        if(color == null) {
                             if((region.getSimX() + region.getSimY()) % 2 == 0) {
                                 pixels[pixY * RenderThread.SIM_SIZE + pixX] = 0x222222;
                             } else {
                                 pixels[pixY * RenderThread.SIM_SIZE + pixX] = 0x444444;
                             }
+                        } else {
+                            pixels[pixY * RenderThread.SIM_SIZE + pixX] = color.getRGB();
                         }
                     }
                 }
@@ -116,7 +131,6 @@ public class GameThread extends Thread {
                     throw new RuntimeException(e);
                 }
             }
-
         }
     }
 }
