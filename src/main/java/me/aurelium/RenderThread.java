@@ -2,19 +2,23 @@ package me.aurelium;
 
 import me.aurelium.particles.*;
 import me.aurelium.particles.SuperParticle.Particle;
-import org.lwjgl.*;
-import org.lwjgl.glfw.*;
-import org.lwjgl.opengl.*;
-import org.lwjgl.system.*;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.Version;
+import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL12;
+import org.lwjgl.system.MemoryStack;
 
-import java.nio.*;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static org.lwjgl.glfw.Callbacks.*;
+import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.system.MemoryStack.*;
-import static org.lwjgl.system.MemoryUtil.*;
+import static org.lwjgl.system.MemoryStack.stackPush;
+import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class RenderThread {
     public static final int WIN_WIDTH = 512;
@@ -130,8 +134,6 @@ public class RenderThread {
                 glfwGetCursorPos(window, xBuf, yBuf);
                 int x = (int)xBuf[0];
                 int y = (int)yBuf[0];
-
-
             }
         });
 
@@ -186,6 +188,8 @@ public class RenderThread {
         // the window or has pressed the ESCAPE key.
         while ( !glfwWindowShouldClose(window) ) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+
+            createFromSelected().getClass().getName();
 
             for(int y = 0; y < SIM_SIZE; y++) {
                 for(int x = 0; x < SIM_SIZE; x++) {
