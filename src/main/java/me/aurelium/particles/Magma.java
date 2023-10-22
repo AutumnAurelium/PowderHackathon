@@ -1,7 +1,7 @@
 package me.aurelium.particles;
 
-import me.aurelium.SuperParticle.Particle;
-import me.aurelium.SuperParticle.SuperLiquid;
+import me.aurelium.particles.SuperParticle.Particle;
+import me.aurelium.particles.SuperParticle.SuperLiquid;
 
 import java.awt.*;
 
