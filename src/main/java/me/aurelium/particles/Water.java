@@ -1,7 +1,9 @@
 package me.aurelium.particles;
 
-import me.aurelium.SuperParticle.GravityAffected;
-import me.aurelium.SuperParticle.Particle;
+
+
+import me.aurelium.particles.SuperParticle.GravityAffected;
+import me.aurelium.particles.SuperParticle.Particle;
 
 import java.awt.*;
 

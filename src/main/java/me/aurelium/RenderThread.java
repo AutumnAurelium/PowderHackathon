@@ -1,9 +1,7 @@
 package me.aurelium;
 
-import me.aurelium.SuperParticle.Particle;
-import me.aurelium.particles.Dust;
-import me.aurelium.particles.Metal;
-import me.aurelium.particles.Water;
+import me.aurelium.particles.*;
+import me.aurelium.particles.SuperParticle.Particle;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -32,7 +30,7 @@ public class RenderThread {
     private long window;
 
     private int selected = 0;
-    private static final int maxSelected = 2;
+    private static final int maxSelected = 4;
 
     public int[] lockPixelArray() {
         pixColorsLock.lock();
@@ -67,6 +65,8 @@ public class RenderThread {
             case 0: return new Dust();
             case 1: return new Metal();
             case 2: return new Water();
+            case 3: return new Grass();
+            case 4: return new Fire();
             default: return new Dust();
         }
     }

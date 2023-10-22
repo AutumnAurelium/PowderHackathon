@@ -1,6 +1,6 @@
 package me.aurelium.particles;
 
-import me.aurelium.SuperParticle.Particle;
+import me.aurelium.particles.SuperParticle.Particle;
 
 import java.awt.*;
 
@@ -13,7 +13,7 @@ public class Fire extends Particle {
 
     @Override
     public Color getColor() {
-        return Color.ORANGE;
+        return new Color(242,125,12);
     }
 
     @Override

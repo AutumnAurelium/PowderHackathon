@@ -1,4 +1,4 @@
-package me.aurelium.SuperParticle;
+package me.aurelium.particles.SuperParticle;
 
 import me.aurelium.particles.Air;
 
