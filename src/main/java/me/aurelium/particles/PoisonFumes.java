@@ -22,6 +22,9 @@ public class PoisonFumes extends SuperGas {
 
     @Override
     public void interactionCheck(Particle[][] p) {
+        super.interactionCheck(p);
+        if (p[1][1]!=this) return;
+
         //catches fire when adjacent
         if (p[1][0].temperature>390){
             p[1][1]=new Fire();
