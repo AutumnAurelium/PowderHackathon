@@ -1,10 +1,11 @@
 package me.aurelium.particles;
 
 import me.aurelium.particles.SuperParticle.Particle;
+import me.aurelium.particles.SuperParticle.SuperGas;
 
 import java.awt.*;
 
-public class Fire extends Particle {
+public class Fire extends SuperGas {
     int weight;
     public Fire(){
         this.isCharged=false;
@@ -19,11 +20,5 @@ public class Fire extends Particle {
     @Override
     public boolean canCollide(Particle p) {
         return false;
-    }
-
-    @Override
-    public void interactionCheck(Particle[][] p) {
-        //others will be caught on fire
-
     }
 }
