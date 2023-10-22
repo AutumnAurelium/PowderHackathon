@@ -20,4 +20,9 @@ public class Magma extends Particle {
         else
             return new Color(255,0,0);
     }
+
+    @Override
+    public boolean canCollide(Particle p) {
+        return true;
+    }
 }

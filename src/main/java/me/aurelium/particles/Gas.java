@@ -13,4 +13,9 @@ public class Gas extends Particle {
     public Color getColor() {
         return Color.YELLOW;
     }
+
+    @Override
+    public boolean canCollide(Particle p) {
+        return false;
+    }
 }

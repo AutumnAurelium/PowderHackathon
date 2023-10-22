@@ -13,4 +13,9 @@ public class Grass extends Particle {
     public Color getColor() {
         return Color.GREEN;
     }
+
+    @Override
+    public boolean canCollide(Particle p) {
+        return true;
+    }
 }

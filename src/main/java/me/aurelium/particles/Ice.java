@@ -13,4 +13,9 @@ public class Ice extends Particle {
     public Color getColor() {
         return new Color(66, 233, 245);
     }
+
+    @Override
+    public boolean canCollide(Particle p) {
+        return true;
+    }
 }

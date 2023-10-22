@@ -20,4 +20,9 @@ public class Stone extends Particle {
         else
             return new Color(61, 52, 50);
     }
+
+    @Override
+    public boolean canCollide(Particle p) {
+        return true;
+    }
 }

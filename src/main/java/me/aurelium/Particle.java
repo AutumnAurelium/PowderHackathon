@@ -8,7 +8,6 @@ public abstract class Particle {
     public int xSubpixel; // millipixels
     public int ySubpixel; // millipixels
     public float temperature; // degrees kelvin
-    public int type;
     public boolean isWet;
     public boolean isCharged;
     public static Color color;
@@ -16,4 +15,6 @@ public abstract class Particle {
     public boolean isPhysicsTickFinished = false;
 
     public abstract Color getColor();
+    public abstract boolean canCollide(Particle p);
+
 }

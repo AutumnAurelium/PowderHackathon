@@ -20,4 +20,9 @@ public class Metal extends Particle {
         else
             return new Color(105, 103, 102);
     }
+
+    @Override
+    public boolean canCollide(Particle p) {
+        return true;
+    }
 }

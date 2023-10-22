@@ -15,4 +15,11 @@ public class Air extends Particle {
     public Color getColor() {
         return null;
     }
+
+    @Override
+    public boolean canCollide(Particle p) {
+        return false;
+    }
+
+
 }

@@ -16,4 +16,9 @@ public class Dust extends Particle {
     public Color getColor() {
         return new Color(250, 186, 112);
     }
+
+    @Override
+    public boolean canCollide(Particle p) {
+        return true;
+    }
 }

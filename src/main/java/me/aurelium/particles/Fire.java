@@ -15,4 +15,9 @@ public class Fire extends Particle {
     public Color getColor() {
         return Color.ORANGE;
     }
+
+    @Override
+    public boolean canCollide(Particle p) {
+        return false;
+    }
 }

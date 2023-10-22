@@ -8,10 +8,16 @@ public class Water extends Particle {
     public Water() {
         this.temperature = 293.15F;
         this.weight=350;
+        this.isWet=true;
     }
 
     @Override
     public Color getColor() {
         return Color.BLUE;
+    }
+
+    @Override
+    public boolean canCollide(Particle p) {
+        return true;
     }
 }
