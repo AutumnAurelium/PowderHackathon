@@ -16,6 +16,8 @@ public abstract class SuperGas extends Particle {
 
     @Override
     public void interactionCheck(Particle[][] p) {
+        super.interactionCheck(p);
+
         if(p[0][1] instanceof Air) {
             Particle old = p[0][1];
             p[0][1] = this;
