@@ -1,5 +1,6 @@
 package me.aurelium;
 
+import me.aurelium.particles.Air;
 import me.aurelium.particles.Dust;
 import me.aurelium.particles.Metal;
 
@@ -72,21 +73,31 @@ public class GameThread extends Thread {
         Particle[] particles2 = regions[0].lockAndGetParticles();
 
         Particle p = new Dust();
-        p.xVelocity = 120;
+        p.xVelocity = 0;
         p.yVelocity = 0;
         particles2[4 * ParticleRegion.REGION_SIZE + 3] = p;
 
-        Particle p2 = new Dust();
+        Particle[] particles3 = regions[1].lockAndGetParticles();
+        Particle p2 = new Metal();
         p2.xVelocity = 0;
         p2.yVelocity = 0;
-        particles2[4 * ParticleRegion.REGION_SIZE + 12] = p2;
+        particles3[4 * ParticleRegion.REGION_SIZE] = p2;
 
         regions[0].unlock();
+        regions[1].unlock();
 
         while (!mainThread.shouldExit()) {
             long start = System.nanoTime();
 
             physicsTick();
+
+            Particle[] sandPlacer = regions[0].lockAndGetParticles();
+
+            if(sandPlacer[ParticleRegion.REGION_SIZE * 4 + 4] instanceof Air) {
+                sandPlacer[ParticleRegion.REGION_SIZE * 4 + 4] = new Dust();
+            }
+
+            regions[0].unlock();
 
             int[] pixels = mainThread.lockPixelArray();
             for(ParticleRegion region : regions) {

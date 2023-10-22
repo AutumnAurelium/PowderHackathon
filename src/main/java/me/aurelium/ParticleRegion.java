@@ -31,6 +31,8 @@ public class ParticleRegion {
         int y = y0;
 
         for(int x=x0; x < x1; x++) {
+            if(x == x0)
+                continue;
             results.add(new Integer[]{x, y});
             if(D > 0) {
                 y += 1;
@@ -52,6 +54,10 @@ public class ParticleRegion {
                         particle.isPhysicsTickFinished = false;
                     }
                     continue;
+                }
+
+                if(!(particle instanceof Air)) {
+                    particle.yVelocity += 1;
                 }
 
                 particle.xSubpixel += particle.xVelocity;
@@ -96,26 +102,170 @@ public class ParticleRegion {
                     hasYOverflow = true;
                 }
 
-                if(hasXOverflow && hasYOverflow) {
-                    System.out.println("CORNER CASE OH FUCK");
-                } else if(hasXOverflow || hasYOverflow) {
-                    if(hasXOverflow && xOverflow >= 0) {
-                        Particle old = right.replaceParticle(xOverflow, y, particle);
-                        replaceParticle(x, y, old);
-                    } else if(hasXOverflow && xOverflow < 0) {
-                        Particle old = left.replaceParticle(REGION_SIZE + xOverflow, y, particle);
-                        replaceParticle(x, y, old);
-                    } else if(yOverflow >= 0) {
-                        Particle old = down.replaceParticle(x, yOverflow, particle);
-                        replaceParticle(x, y, old);
+                if(hasXOverflow && hasYOverflow) { // ugly hack. nobody care
+                    if(yOverflow >= 0) {
+                        destY--;
                     } else {
-                        Particle old = up.replaceParticle(x, REGION_SIZE + yOverflow, particle);
-                        replaceParticle(x, y, old);
+                        destY++;
+                    }
+                    hasYOverflow = false;
+                }
+
+                if(hasXOverflow) {
+                    List<Integer[]> positions = bresenham(x, y, destX, destY);
+                    positions.add(new Integer[]{destX, destY});
+                    int intX=0;
+                    int intY=0;
+                    for(int i=0; i < positions.size(); i++) {
+                        Integer[] pos = positions.get(i);
+                        if(pos[0] == REGION_SIZE) { // y-intercept found. this is surely not a bad way to do this.
+                            intX = 0;
+                            intY = pos[1];
+
+                            if(right == null) {
+                                continue;
+                            }
+
+                            Particle particleAt = right.particleAt(intX, intY);
+                            if(particleAt.canCollide(particle)) {
+                                int stopX;
+                                int stopY;
+                                if(i == 0) {
+                                    stopX = x;
+                                    stopY = y;
+                                } else {
+                                    Integer[] stopPos = positions.get(i - 1);
+                                    stopX = stopPos[0];
+                                    stopY = stopPos[1];
+                                }
+
+                                particle.xVelocity = 0;
+                                particle.yVelocity = 0;
+                                intX = stopX;
+                                intY = stopY;
+                            }
+
+                            Particle old;
+                            if(intX == destX-1 && intY == destY) {
+                                old = replaceParticle(intX, intY, particle);
+                            } else {
+                                old = right.replaceParticle(intX, intY, particle);
+                            }
+                            replaceParticle(x, y, old);
+                        } else if(pos[0] == 0) {
+                            intX = REGION_SIZE-1;
+                            intY = pos[1];
+
+                            if(left == null)
+                                continue;
+
+                            Particle particleAt = left.particleAt(intX, intY);
+                            if(particleAt.canCollide(particle)) {
+                                int stopX;
+                                int stopY;
+                                if(i == 0) {
+                                    stopX = x;
+                                    stopY = y;
+                                } else {
+                                    Integer[] stopPos = positions.get(i - 1);
+                                    stopX = stopPos[0];
+                                    stopY = stopPos[1];
+                                }
+
+                                particle.xVelocity = 0;
+                                particle.yVelocity = 0;
+                                intX = stopX;
+                                intY = stopY;
+                            }
+
+                            Particle old;
+                            if(intX == destX && intY == destY) {
+                                old = replaceParticle(intX, intY, particle);
+                            } else {
+                                old = left.replaceParticle(intX, intY, particle);
+                            }
+                            replaceParticle(x, y, old);
+                        }
+                    }
+                } else if(hasYOverflow) {
+                    List<Integer[]> positions = bresenham(x, y, destX, destY);
+                    positions.add(new Integer[]{destX, destY});
+                    int intX=0;
+                    int intY=0;
+                    for(int i=0; i < positions.size(); i++) {
+                        Integer[] pos = positions.get(i);
+                        if(pos[1] == REGION_SIZE) { // y-intercept found. this is surely not a bad way to do this.
+                            intX = pos[0];
+                            intY = 0;
+
+                            if(down == null)
+                                continue;
+
+                            Particle particleAt = down.particleAt(intX, intY);
+                            if(particleAt.canCollide(particle)) {
+                                int stopX;
+                                int stopY;
+                                if(i == 0) {
+                                    stopX = x;
+                                    stopY = y;
+                                } else {
+                                    Integer[] stopPos = positions.get(i - 1);
+                                    stopX = stopPos[0];
+                                    stopY = stopPos[1];
+                                }
+
+                                particle.xVelocity = 0;
+                                particle.yVelocity = 0;
+                                intX = stopX;
+                                intY = stopY;
+                            }
+
+                            Particle old;
+                            if(intX == destX && intY == destY) {
+                                old = replaceParticle(intX, intY, particle);
+                            } else {
+                                old = down.replaceParticle(intX, intY, particle);
+                            }
+                            replaceParticle(x, y, old);
+                        } else if(pos[1] == 0) {
+                            intX = pos[0];
+                            intY = REGION_SIZE-1;
+
+                            if(up == null)
+                                continue;
+
+                            Particle particleAt = up.particleAt(intX, intY);
+                            if(particleAt.canCollide(particle)) {
+                                int stopX;
+                                int stopY;
+                                if(i == 0) {
+                                    stopX = x;
+                                    stopY = y;
+                                } else {
+                                    Integer[] stopPos = positions.get(i - 1);
+                                    stopX = stopPos[0];
+                                    stopY = stopPos[1];
+                                }
+
+                                particle.xVelocity = 0;
+                                particle.yVelocity = 0;
+                                intX = stopX;
+                                intY = stopY;
+                            }
+
+                            Particle old;
+                            if(intX == destX && intY == destY) {
+                                old = replaceParticle(intX, intY, particle);
+                            } else {
+                                old = up.replaceParticle(intX, intY, particle);
+                            }
+                            replaceParticle(x, y, old);
+                        }
                     }
                 } else if((destX != x || destY != y)) {
                     List<Integer[]> intersections = bresenham(x, y, destX, destY);
 
-                    for(int i=1; i < intersections.size(); i++) {
+                    for(int i=0; i < intersections.size(); i++) {
                         Integer[] arr = intersections.get(i);
                         int inX = arr[0];
                         int inY = arr[1];
