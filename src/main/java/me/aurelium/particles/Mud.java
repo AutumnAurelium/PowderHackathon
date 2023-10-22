@@ -10,6 +10,7 @@ public class Mud extends SuperSolid {
     public Mud(){
         this.weight=400;
         this.isWet=true;
+        this.temperature=295;
     }
     @Override
     public Color getColor() {
