@@ -33,6 +33,5 @@ public class Ice extends SuperSolid {
             p[1][1] = new Water();
             p[1][1].temperature = this.temperature;
         }
-
     }
 }

@@ -10,6 +10,7 @@ public class Stone extends SuperSolid {
 
     public Stone(){
         this.weight=800;
+        this.temperature=280;
     }
     @Override
     public Color getColor() {

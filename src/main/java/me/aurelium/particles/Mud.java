@@ -10,6 +10,7 @@ public class Mud extends SuperSolid {
     public Mud(){
         this.weight=400;
         this.isWet=true;
+        this.temperature=295;
     }
     @Override
     public Color getColor() {
@@ -28,7 +29,7 @@ public class Mud extends SuperSolid {
         if(p[1][1] !=this) return;
 
         if(p[1][1].temperature>373){
-            p[1][1]=new Dust();
+            p[1][1]=new Stone();
         }
     }
 }

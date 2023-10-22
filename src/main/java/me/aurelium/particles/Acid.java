@@ -12,6 +12,7 @@ public class Acid extends SuperLiquid {
         this.isWet=true;
         this.isCharged=false;
         this.weight=100;
+        this.temperature=295;
     }
 
     @Override
