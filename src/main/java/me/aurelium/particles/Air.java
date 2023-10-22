@@ -1,10 +1,11 @@
 package me.aurelium.particles;
 
-import me.aurelium.Particle;
+import me.aurelium.SuperParticle.Particle;
+import me.aurelium.SuperParticle.SuperGas;
 
 import java.awt.*;
 
-public class Air extends Particle {
+public class Air extends SuperGas {
 
     public Air(){
         this.isCharged=false;

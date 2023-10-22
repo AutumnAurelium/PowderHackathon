@@ -1,9 +1,10 @@
 package me.aurelium.particles;
 
-import me.aurelium.Particle;
+import me.aurelium.SuperParticle.Particle;
+import me.aurelium.SuperParticle.SuperLiquid;
 
 import java.awt.*;
-public class Acid extends Particle {
+public class Acid extends SuperLiquid {
     public Acid(){
         this.isWet=true;
         this.isCharged=false;
@@ -23,7 +24,6 @@ public class Acid extends Particle {
     @Override
     public void interactionCheck(Particle[][] p) {
         //dissolves adjacent particle, destroyed in the process.
-
     }
 
 

@@ -1,6 +1,6 @@
 package me.aurelium.particles;
 
-import me.aurelium.Particle;
+import me.aurelium.SuperParticle.Particle;
 
 import java.awt.*;
 

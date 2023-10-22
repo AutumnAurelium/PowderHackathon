@@ -1,10 +1,11 @@
 package me.aurelium.particles;
 
-import me.aurelium.Particle;
+import me.aurelium.SuperParticle.Particle;
+import me.aurelium.SuperParticle.SuperGas;
 
 import java.awt.*;
 
-public class Steam extends Particle {
+public class Steam extends SuperGas {
         public Steam() {
             this.temperature = 390.15F;
             this.weight=10;

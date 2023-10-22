@@ -1,10 +1,11 @@
 package me.aurelium.particles;
 
-import me.aurelium.Particle;
+import me.aurelium.SuperParticle.Particle;
+import me.aurelium.SuperParticle.SuperLiquid;
 
 import java.awt.*;
 
-public class Magma extends Particle {
+public class Magma extends SuperLiquid {
 
     public Magma(){
         this.weight=500;

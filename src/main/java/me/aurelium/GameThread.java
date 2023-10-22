@@ -1,13 +1,9 @@
 package me.aurelium;
 
+import me.aurelium.SuperParticle.Particle;
 import me.aurelium.particles.Air;
-import me.aurelium.particles.Dust;
-import me.aurelium.particles.Metal;
 
-import javax.swing.plaf.synth.Region;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GameThread extends Thread {
     private static final int regionsPerRow = RenderThread.SIM_SIZE / ParticleRegion.REGION_SIZE;

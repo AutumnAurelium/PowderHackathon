@@ -1,10 +1,11 @@
 package me.aurelium.particles;
 
-import me.aurelium.Particle;
+import me.aurelium.SuperParticle.Particle;
+import me.aurelium.SuperParticle.SuperSolid;
 
 import java.awt.*;
 
-public class Stone extends Particle {
+public class Stone extends SuperSolid {
 
     public Stone(){
         this.weight=800;

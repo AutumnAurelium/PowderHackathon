@@ -1,10 +1,11 @@
 package me.aurelium.particles;
 
-import me.aurelium.Particle;
+import me.aurelium.SuperParticle.Particle;
+import me.aurelium.SuperParticle.SuperLiquid;
 
 import java.awt.*;
 
-public class Water extends Particle {
+public class Water extends SuperLiquid {
     public Water() {
         this.temperature = 293.15F;
         this.weight=350;

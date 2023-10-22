@@ -1,10 +1,11 @@
 package me.aurelium.particles;
 
-import me.aurelium.Particle;
+import me.aurelium.SuperParticle.Particle;
+import me.aurelium.SuperParticle.SuperSolid;
 
 import java.awt.*;
 
-public class Dust extends GravityAffected {
+public class Dust extends SuperSolid {
 
     public Dust(){
         this.isCharged=false;

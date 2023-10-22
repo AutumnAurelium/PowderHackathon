@@ -1,12 +1,12 @@
 package me.aurelium.particles;
 
-import me.aurelium.Particle;
+import me.aurelium.SuperParticle.Particle;
 
 import java.awt.*;
 
-public class Gas extends Particle {
+public class PoisonFumes extends Particle {
 
-    public Gas(){
+    public PoisonFumes(){
         this.weight=10;
     }
     @Override

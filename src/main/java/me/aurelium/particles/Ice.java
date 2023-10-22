@@ -1,10 +1,11 @@
 package me.aurelium.particles;
 
-import me.aurelium.Particle;
+import me.aurelium.SuperParticle.Particle;
+import me.aurelium.SuperParticle.SuperSolid;
 
 import java.awt.*;
 
-public class Ice extends Particle {
+public class Ice extends SuperSolid {
 
     public Ice(){
         this.weight=150;

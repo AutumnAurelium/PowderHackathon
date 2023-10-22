@@ -1,5 +1,6 @@
 package me.aurelium;
 
+import me.aurelium.SuperParticle.Particle;
 import me.aurelium.particles.Dust;
 import me.aurelium.particles.Metal;
 import me.aurelium.particles.Water;

@@ -1,8 +1,6 @@
-package me.aurelium.particles;
+package me.aurelium.SuperParticle;
 
-import me.aurelium.Particle;
-
-import java.awt.*;
+import me.aurelium.particles.Air;
 
 public abstract class GravityAffected extends Particle {
 

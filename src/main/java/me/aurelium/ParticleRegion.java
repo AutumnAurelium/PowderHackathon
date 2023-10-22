@@ -1,5 +1,6 @@
 package me.aurelium;
 
+import me.aurelium.SuperParticle.Particle;
 import me.aurelium.particles.Air;
 
 import java.util.ArrayList;

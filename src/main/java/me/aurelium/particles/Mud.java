@@ -1,10 +1,11 @@
 package me.aurelium.particles;
 
-import me.aurelium.Particle;
+import me.aurelium.SuperParticle.Particle;
+import me.aurelium.SuperParticle.SuperSolid;
 
 import java.awt.*;
 
-public class Mud extends Particle {
+public class Mud extends SuperSolid {
 
     public Mud(){
         this.weight=400;

@@ -1,4 +1,4 @@
-package me.aurelium;
+package me.aurelium.SuperParticle;
 
 import java.awt.*;
 
