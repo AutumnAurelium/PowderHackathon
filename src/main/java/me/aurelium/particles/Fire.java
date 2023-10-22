@@ -7,6 +7,7 @@ import java.awt.*;
 
 public class Fire extends SuperGas {
     int weight;
+    int life = 0;
     public Fire(){
         this.isCharged=false;
         this.isWet=false;
@@ -20,5 +21,15 @@ public class Fire extends SuperGas {
     @Override
     public boolean canCollide(Particle p) {
         return false;
+    }
+
+    @Override
+    public void interactionCheck(Particle[][] p) {
+        super.interactionCheck(p);
+        life++;
+
+        if(life > 30 && Math.random() > 0.2) {
+            p[1][1] = new Air();
+        }
     }
 }

@@ -24,4 +24,16 @@ public class Water extends SuperLiquid {
     public boolean canCollide(Particle p) {
         return true;
     }
+
+    @Override
+    public void interactionCheck(Particle[][] p) {
+        super.interactionCheck(p);
+
+        if(p[1][1] instanceof Air)
+            return;
+
+        if(p[2][1] instanceof Fire) {
+            p[2][1] = new Air();
+        }
+    }
 }
