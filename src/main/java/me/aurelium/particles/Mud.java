@@ -24,6 +24,11 @@ public class Mud extends SuperSolid {
     @Override
     public void interactionCheck(Particle[][] p) {
         //can become dry
+        super.interactionCheck(p);
+        if(p[1][1] !=this) return;
 
+        if(p[1][1].temperature>373){
+            p[1][1]=new Dust();
+        }
     }
 }

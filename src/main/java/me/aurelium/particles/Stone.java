@@ -6,7 +6,7 @@ import me.aurelium.particles.SuperParticle.SuperSolid;
 
 import java.awt.*;
 
-public class Stone extends GravityAffected {
+public class Stone extends SuperSolid {
 
     public Stone(){
         this.weight=800;

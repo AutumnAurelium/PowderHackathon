@@ -46,11 +46,6 @@ public class Acid extends SuperLiquid {
 
     public boolean notAcidLiquid(Particle p){
         //stops acid from melting acid
-        if (p instanceof Acid) return false;
-        else if (p instanceof SuperLiquid)
-            return true;
-        else
-            System.out.println("SOMETHING WRONG WITH ACID LIQUIDS");
-        return true;
+        return !(p instanceof Acid);
     }
 }
