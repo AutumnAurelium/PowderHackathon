@@ -9,6 +9,7 @@ public class Magma extends SuperLiquid {
 
     public Magma(){
         this.weight=500;
+        this.temperature = 4000;
     }
     @Override
     public Color getColor() {
@@ -29,7 +30,14 @@ public class Magma extends SuperLiquid {
 
     @Override
     public void interactionCheck(Particle[][] p) {
-        //set fires, becomes wet
+        super.interactionCheck(p);
 
+        if(p[1][1] != this)
+            return;
+
+        if(p[1][1].temperature < 300) {
+            p[1][1] = new Stone();
+            p[1][1].temperature = this.temperature;
+        }
     }
 }

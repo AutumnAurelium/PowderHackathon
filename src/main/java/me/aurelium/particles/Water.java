@@ -35,5 +35,13 @@ public class Water extends SuperLiquid {
         if(p[2][1] instanceof Fire) {
             p[2][1] = new Air();
         }
+
+        if(p[1][1] != this)
+            return;
+
+        if(this.temperature > 373) {
+            p[1][1] = new Steam();
+            p[1][1].temperature = this.temperature;
+        }
     }
 }

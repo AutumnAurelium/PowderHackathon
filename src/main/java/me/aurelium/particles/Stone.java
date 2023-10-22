@@ -31,5 +31,13 @@ public class Stone extends GravityAffected {
     @Override
     public void interactionCheck(Particle[][] p) {
         super.interactionCheck(p);
+
+        if(p[1][1] != this)
+            return;
+
+        if(p[1][1].temperature > 300) {
+            p[1][1] = new Magma();
+            p[1][1].temperature = this.temperature;
+        }
     }
 }

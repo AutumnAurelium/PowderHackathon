@@ -25,6 +25,16 @@ public class Steam extends SuperGas {
 
     @Override
     public void interactionCheck(Particle[][] p) {
-        //none?
+        super.interactionCheck(p);
+
+        if(p[1][1] != this)
+            return;
+
+        this.temperature -= 20;
+
+        if(this.temperature < 373) {
+            p[1][1] = new Water();
+            p[1][1].temperature = this.temperature;
+        }
     }
 }
