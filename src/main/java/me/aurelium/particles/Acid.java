@@ -8,5 +8,11 @@ public class Acid extends Particle {
         this.isWet=true;
         this.color= Color.GREEN;
         this.isCharged=false;
+
+    }
+
+    @Override
+    public Color getColor() {
+        return null;
     }
 }
