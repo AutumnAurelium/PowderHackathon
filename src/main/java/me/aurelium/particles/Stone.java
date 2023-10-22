@@ -1,11 +1,12 @@
 package me.aurelium.particles;
 
+import me.aurelium.particles.SuperParticle.GravityAffected;
 import me.aurelium.particles.SuperParticle.Particle;
 import me.aurelium.particles.SuperParticle.SuperSolid;
 
 import java.awt.*;
 
-public class Stone extends SuperSolid {
+public class Stone extends GravityAffected {
 
     public Stone(){
         this.weight=800;
@@ -29,7 +30,6 @@ public class Stone extends SuperSolid {
 
     @Override
     public void interactionCheck(Particle[][] p) {
-        //none?
-
+        super.interactionCheck(p);
     }
 }

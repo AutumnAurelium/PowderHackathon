@@ -30,7 +30,7 @@ public class RenderThread {
     private long window;
 
     private int selected = 0;
-    private static final int maxSelected = 4;
+    private static final int maxSelected = 5;
 
     public int[] lockPixelArray() {
         pixColorsLock.lock();
@@ -67,6 +67,7 @@ public class RenderThread {
             case 2: return new Water();
             case 3: return new Grass();
             case 4: return new Fire();
+            case 5: return new Stone();
             default: return new Dust();
         }
     }
