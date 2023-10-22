@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class Air extends Particle {
 
-    Air(){
+    public Air(){
         this.isCharged=false;
         this.isWet=false;
     }
