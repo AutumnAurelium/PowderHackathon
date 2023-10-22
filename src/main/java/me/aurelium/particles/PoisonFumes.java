@@ -32,5 +32,15 @@ public class PoisonFumes extends SuperGas {
         } else if (p[2][1].temperature>390){
             p[1][1]=new Fire();
         }
+
+        if (p[1][0] instanceof Steam){
+            p[1][0]=new PoisonFumes();
+        } else if (p[0][1] instanceof Steam){
+            p[0][1]=new PoisonFumes();
+        } else if (p[1][2] instanceof Steam){
+            p[1][2]=new PoisonFumes();
+        } else if (p[2][1] instanceof Steam){
+            p[2][1]=new PoisonFumes();
+        }
     }
 }
