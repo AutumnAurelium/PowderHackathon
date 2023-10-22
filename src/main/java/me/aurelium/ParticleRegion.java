@@ -296,6 +296,7 @@ public class ParticleRegion {
                 particle.isPhysicsTickFinished = true;
             }
         }
+        this.unlock();
     }
 
     private Particle particleAt(int x, int y) {
