@@ -9,11 +9,10 @@ public class Dust extends Particle {
     public Dust(){
         this.isCharged=false;
         this.isWet=false;
-        this.color=new Color(250, 186, 112);
     }
 
     @Override
     public Color getColor() {
-        return null;
+        return new Color(250, 186, 112);
     }
 }

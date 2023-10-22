@@ -11,6 +11,6 @@ public class Water extends Particle {
 
     @Override
     public Color getColor() {
-        return null;
+        return Color.BLUE;
     }
 }

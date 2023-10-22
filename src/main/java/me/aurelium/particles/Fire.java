@@ -14,6 +14,6 @@ public class Fire extends Particle {
 
     @Override
     public Color getColor() {
-        return null;
+        return Color.ORANGE;
     }
 }

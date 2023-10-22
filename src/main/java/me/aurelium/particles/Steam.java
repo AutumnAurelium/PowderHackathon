@@ -10,6 +10,6 @@ public class Steam extends Particle {
         }
     @Override
     public Color getColor() {
-        return null;
+        return new Color(197, 235, 234);
     }
 }

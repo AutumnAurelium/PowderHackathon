@@ -8,6 +8,6 @@ public class Gas extends Particle {
 
     @Override
     public Color getColor() {
-        return null;
+        return Color.YELLOW;
     }
 }

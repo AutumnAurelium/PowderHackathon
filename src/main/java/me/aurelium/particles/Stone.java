@@ -8,6 +8,13 @@ public class Stone extends Particle {
 
     @Override
     public Color getColor() {
-        return null;
+        if (temperature>1400)
+            return new Color(255, 52, 50);
+        else if(temperature>600){
+            int r= (int)(temperature*.175);
+            return new Color((int)(temperature*.175), 52, 50);
+        }
+        else
+            return new Color(61, 52, 50);
     }
 }

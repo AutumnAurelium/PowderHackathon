@@ -9,6 +9,6 @@ public class Mud extends Particle {
 
     @Override
     public Color getColor() {
-        return null;
+        return new Color(92, 62, 39);
     }
 }

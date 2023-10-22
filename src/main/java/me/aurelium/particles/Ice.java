@@ -8,6 +8,6 @@ public class Ice extends Particle {
 
     @Override
     public Color getColor() {
-        return null;
+        return new Color(66, 233, 245);
     }
 }
