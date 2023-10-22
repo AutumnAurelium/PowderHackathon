@@ -9,6 +9,7 @@ public class Ice extends SuperSolid {
 
     public Ice(){
         this.weight=150;
+        this.temperature=250;
     }
     @Override
     public Color getColor() {
@@ -23,6 +24,15 @@ public class Ice extends SuperSolid {
     @Override
     public void interactionCheck(Particle[][] p) {
         //melt with heat
+        super.interactionCheck(p);
+
+        if(p[1][1] != this)
+            return;
+
+        if(p[1][1].temperature > 273) {
+            p[1][1] = new Water();
+            p[1][1].temperature = this.temperature;
+        }
 
     }
 }

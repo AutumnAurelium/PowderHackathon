@@ -43,5 +43,10 @@ public class Water extends SuperLiquid {
             p[1][1] = new Steam();
             p[1][1].temperature = this.temperature;
         }
+
+        if(this.temperature<273){
+            p[1][1]=new Water();
+            p[1][1].temperature=this.temperature;
+        }
     }
 }

@@ -44,5 +44,19 @@ public class Dust extends SuperSolid {
                 }
             }
         }
+
+        if (p[1][0] instanceof Water){
+            p[1][1]=new Mud();
+            p[1][0]=new Air();
+        } else if (p[0][1] instanceof Water){
+            p[1][1]=new Mud();
+            p[0][1]=new Air();
+        } else if (p[1][2] instanceof Water){
+            p[1][1]=new Mud();
+            p[1][2]=new Air();
+        } else if (p[2][1] instanceof Water){
+            p[1][1]=new Mud();
+            p[2][1]=new Air();
+        }
     }
 }
