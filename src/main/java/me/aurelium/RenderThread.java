@@ -30,7 +30,7 @@ public class RenderThread {
     private long window;
 
     private int selected = 0;
-    private static final int maxSelected = 5;
+    private static final int maxSelected = 6;
 
     public int[] lockPixelArray() {
         pixColorsLock.lock();
@@ -68,6 +68,7 @@ public class RenderThread {
             case 3: return new Grass();
             case 4: return new Fire();
             case 5: return new Stone();
+            case 6: return new Acid();
             default: return new Dust();
         }
     }
@@ -187,7 +188,11 @@ public class RenderThread {
 
             for(int y = 0; y < SIM_SIZE; y++) {
                 for(int x = 0; x < SIM_SIZE; x++) {
-                    int pix = pixColors[x + y* SIM_SIZE];
+                    int pix = pixColors[x + y * SIM_SIZE];
+
+                    if(x < 10 && y > SIM_SIZE-3) // show selected
+                        pix = createFromSelected().getColor().getRGB();
+
                     buffer.put((byte)(pix >> 16 & 0xFF));
                     buffer.put((byte)(pix >> 8 & 0xFF));
                     buffer.put((byte)(pix & 0xFF));
