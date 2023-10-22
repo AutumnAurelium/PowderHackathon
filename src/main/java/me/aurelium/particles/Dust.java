@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class Dust extends Particle {
 
-    Dust(){
+    public Dust(){
         this.isCharged=false;
         this.isWet=false;
         this.color=new Color(250, 186, 112);

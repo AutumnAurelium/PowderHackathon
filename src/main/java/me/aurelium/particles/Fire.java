@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class Fire extends Particle {
     int weight;
-    Fire(){
+    public Fire(){
         this.isCharged=false;
         this.isWet=false;
 
