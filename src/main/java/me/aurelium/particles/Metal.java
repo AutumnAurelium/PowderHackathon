@@ -25,4 +25,10 @@ public class Metal extends Particle {
     public boolean canCollide(Particle p) {
         return true;
     }
+
+    @Override
+    public void interactionCheck(Particle[][] p) {
+        //heats up, thats about all
+
+    }
 }

@@ -16,4 +16,5 @@ public abstract class Particle {
 
     public abstract Color getColor();
     public abstract boolean canCollide(Particle p);
+    public abstract void interactionCheck(Particle [][]p);
 }

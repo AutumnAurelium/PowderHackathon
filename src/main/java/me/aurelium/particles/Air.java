@@ -21,5 +21,11 @@ public class Air extends Particle {
         return false;
     }
 
+    @Override
+    public void interactionCheck(Particle[][] p) {
+        //straight chillin
+
+    }
+
 
 }

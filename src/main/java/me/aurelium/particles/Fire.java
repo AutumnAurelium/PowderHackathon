@@ -20,4 +20,10 @@ public class Fire extends Particle {
     public boolean canCollide(Particle p) {
         return false;
     }
+
+    @Override
+    public void interactionCheck(Particle[][] p) {
+        //others will be caught on fire
+
+    }
 }

@@ -25,4 +25,10 @@ public class Magma extends Particle {
     public boolean canCollide(Particle p) {
         return true;
     }
+
+    @Override
+    public void interactionCheck(Particle[][] p) {
+        //set fires, becomes wet
+
+    }
 }

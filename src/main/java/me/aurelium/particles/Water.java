@@ -20,4 +20,10 @@ public class Water extends Particle {
     public boolean canCollide(Particle p) {
         return true;
     }
+
+    @Override
+    public void interactionCheck(Particle[][] p) {
+        //nothing?
+
+    }
 }

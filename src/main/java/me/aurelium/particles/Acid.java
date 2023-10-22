@@ -20,5 +20,11 @@ public class Acid extends Particle {
         return true;
     }
 
+    @Override
+    public void interactionCheck(Particle[][] p) {
+        //dissolves adjacent particle, destroyed in the process.
+
+    }
+
 
 }

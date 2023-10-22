@@ -18,4 +18,10 @@ public class Gas extends Particle {
     public boolean canCollide(Particle p) {
         return false;
     }
+
+    @Override
+    public void interactionCheck(Particle[][] p) {
+        //catches fire when adjacent
+
+    }
 }

@@ -19,4 +19,9 @@ public class Steam extends Particle {
     public boolean canCollide(Particle p) {
         return false;
     }
+
+    @Override
+    public void interactionCheck(Particle[][] p) {
+        //none?
+    }
 }
