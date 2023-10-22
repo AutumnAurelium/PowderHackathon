@@ -1,7 +1,7 @@
 package me.aurelium;
 
-import me.aurelium.SuperParticle.Particle;
 import me.aurelium.particles.Air;
+import me.aurelium.particles.SuperParticle.Particle;
 
 import java.awt.*;
 
